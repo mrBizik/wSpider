@@ -23,24 +23,30 @@ public class Crawler extends DataBase
 	{
 		this.target = url;
 		this.pages = new ArrayList<Page>();
-		Page p = new Page(url);
+		Page p = new Page(url, this.target);
 		this.pages.add(p);
 	}
 	
 	public void startScan() throws Exception
 	{
 		System.out.println("start scaning");
+		int i = 0;
 		while(!this.pages.isEmpty())
 		{
-			int i = this.pages.size()-1;
+			//int i = this.pages.size()-1;
+			
 			Page page = this.pages.get(i);
+			System.out.println(i+")new scan page => "+page);
 			ArrayList <String> links = page.getLinks();
 			for (String link : links)
 			{
-				System.out.println(link);
-				Page scanPage = new Page(link);
-				this.pages.remove(i);
+				//System.out.println(link);
+				Page scanPage = new Page(link, this.target);
+				this.pages.add(scanPage);
 			}
+			this.pages.remove(i);
+			i++;
+			
 		}
 	}
 }

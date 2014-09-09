@@ -19,10 +19,10 @@ public class Page extends DataBase{
 	private Document doc;
 	private ArrayList <String> links;
 	
-	public Page(String url) throws Exception
+	public Page(String url, String target) throws Exception
 	{
 		try 
-		{	System.out.println("go page => "+url);
+		{	//System.out.println("go page => "+url);
             doc = Jsoup.connect(url).userAgent("Mozilla/5.0 (Windows NT 6.2; rv:21.0) Gecko/20100101 Firefox/21.0").get();
             //res = Jsoup.connect("http://vk.com/").;
         }
@@ -34,6 +34,7 @@ public class Page extends DataBase{
         }
 		
 		this.links = new ArrayList<String>();
+		this.url = url;
 		
         /*Elements linksSrc = doc.select("[src]");
         for (Element link : linksSrc)
@@ -45,17 +46,23 @@ public class Page extends DataBase{
         for (Element link : linksHref)
         {
         	String lk = link.attr("href");
-        	System.out.println("new link =>"+lk);
-        	if(lk.matches(".html"))
+        	
+        	if(lk.matches("/?[a-z|A-Z|0-9|-|_]+/?[a-z|A-Z|0-9|-|_]*/?"))
         	{
-        		this.links.add(link.attr("href"));
+        		//System.out.println("new link =>"+target+lk);
+        		this.links.add(target+lk);
         	}
         }
-        System.out.println(this.links.size());
+        //System.out.println(this.links.size());
 	}
 	
 	public ArrayList<String> getLinks() throws Exception
 	{
 		return this.links;
+	}
+	
+	public String toString()
+	{
+		return this.url;
 	}
 }
