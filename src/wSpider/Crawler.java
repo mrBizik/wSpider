@@ -23,7 +23,7 @@ public class Crawler extends DataBase
 	{
 		this.target = url;
 		this.pages = new ArrayList<Page>();
-		Page p = new Page(url, this.target);
+		Page p = new Page(url);
 		this.pages.add(p);
 	}
 	
@@ -33,16 +33,12 @@ public class Crawler extends DataBase
 		int i = 0;
 		while(!this.pages.isEmpty())
 		{
-			//int i = this.pages.size()-1;
-			
 			Page page = this.pages.get(i);
 			System.out.println(i+")new scan page => "+page);
-			ArrayList <String> links = page.getLinks();
+			ArrayList <String> links = page.getLinks(this.target);
 			for (String link : links)
 			{
-				//System.out.println(link);
-				Page scanPage = new Page(link, this.target);
-				this.pages.add(scanPage);
+				this.pages.add(new Page(link));
 			}
 			this.pages.remove(i);
 			i++;
