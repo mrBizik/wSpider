@@ -14,7 +14,8 @@ import org.jsoup.select.Elements;
 import wSpider.DataBase;
 
 
-public class Page extends DataBase{
+public class Page 
+{
 	private String url;
 	private Document doc;
 	private ArrayList <String> links;
@@ -42,7 +43,7 @@ public class Page extends DataBase{
         {
         	this.links.add(link.attr("src"));
         }*/
-        
+		       
         Elements linksHref = this.doc.select("a[href]");
         for (Element link : linksHref)
         {
@@ -50,6 +51,7 @@ public class Page extends DataBase{
         	
         	if(lk.matches("/?[a-z|A-Z|0-9|-|_]+/?[a-z|A-Z|0-9|-|_]*/?"))
         	{
+        		System.out.println("-------------------new get links target => "+target+lk);
         		this.links.add(target+lk);
         	}
         }
