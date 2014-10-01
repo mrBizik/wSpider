@@ -30,14 +30,17 @@ public class Crawler
 		this.pages.add(p);
 	}
 	
-	public void startScan() throws Exception
+	public void startScan() //throws Exception
 	{
 		System.out.println("start scaning");
 		int i = 0;
 		
 		while(!this.pages.isEmpty())
 		{
+			try
+			{
 			Page page = this.pages.get(i);
+	
 			System.out.println(i+")new scan page => "+page);
 			ArrayList <String> links = page.getLinks(this.target);
 			for (String link : links)
@@ -46,7 +49,9 @@ public class Crawler
 				{
 					System.out.println("-----------------add link => "+link);
 					this.pages.add(new Page(link));
-					this.links.add(link);					
+					System.out.println("----------------=page added! ");
+					this.links.add(link);	
+					System.out.println("----------------=link added! ");
 				}
 				else
 				{
@@ -56,8 +61,22 @@ public class Crawler
 			System.out.println("TOTAL LINKS => "+this.links.size());
 			System.out.println("TOTAL PAGES => "+this.pages.size());
 			this.pages.remove(i);
-			i++;
 			
+			}
+			catch (Error err)
+			{
+				System.out.println(err.getMessage());
+				i++;
+				continue;
+			}
+			catch(Exception exc) 
+			{
+				System.out.println("Exceprion = > "+exc.getMessage());
+				i++;
+				continue;
+			}
+			i++;
+			System.out.println("next scan page => "+this.pages.get(i));
 		}
 	}
 }
