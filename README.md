@@ -1,3 +1,0 @@
-wSpider
-=======
-Простой web crawler
