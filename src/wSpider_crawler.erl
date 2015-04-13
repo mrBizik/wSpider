@@ -12,14 +12,17 @@ start(Site_url, Grab_type)->
   case Page of
     {ok, Content} ->
       % Парсинг страницы
-      io:format("Page ~s loaded:~n ~s~n", [Site_url, Content]), 
+      io:format("Page ~s loaded:~n", [Site_url]), 
       Dom_tree = mochiweb_html:parse(Content),
-      io:format("Page ~s DOM:~n ~s~n", [Site_url, Dom_tree]), 
-      Link_list = extract_links(Dom_tree, wSpider_url:parse(Site_url));
+      Domain = wSpider_url:get_domain(wSpider_url:parse(Site_url)),
+      %Link_list = wSpider_parser:extract_links(Dom_tree, Domain),
+      %Dom_tree;
+      find(Dom_tree, <<"a">>);
     {failed} -> Page 
   end.
 
-% Выбор ссылок из DOM дерева
-extract_links(Tree, Site_url)->
-  io:format("Extracting~n").
+
+find(Dom_tree, Tag) ->
+  wSpider_parser:find_tag(Dom_tree, Tag).
+
 
