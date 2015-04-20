@@ -17,12 +17,15 @@ start(Site_url, Grab_type)->
       Domain = wSpider_url:get_domain(wSpider_url:parse(Site_url)),
       %Link_list = wSpider_parser:extract_links(Dom_tree, Domain),
       %Dom_tree;
-      find(Dom_tree, <<"a">>);
+      Result = find(Dom_tree, <<"a">>),
+      Result;
+      %{_, {_ ,{Attr_name, Attr_value}}} = Result,
+      %io:format("result ~s~n", [Attr_value]);
     {failed} -> Page 
   end.
 
 
 find(Dom_tree, Tag) ->
-  wSpider_parser:find_tag(Dom_tree, Tag).
+  wSpider_parser:find_tag(Dom_tree, Tag, {}).
 
 
