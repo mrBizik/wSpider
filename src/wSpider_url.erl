@@ -1,4 +1,6 @@
+%%%
 % Обработчик URL строк
+%%%
 -module(wSpider_url).
 
 -export([parse/1, get_domain/1]).
@@ -11,7 +13,9 @@ parse(Url)->
   Url_list = string:tokens(Url, "/:?#"),
   Url_list.
 
-
+% Получить имя домена из списка
+% @param Url_list 
+% @return Domain_name
 get_domain([Head|Tail], N)->
   if 
     N == 1 ->
