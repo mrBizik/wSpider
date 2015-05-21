@@ -6,13 +6,14 @@
 -export([start/1, scan_page/2, scan_page/1]).
 
 start(Site_url) -> 
+  wSpider_db:start(),
   wSpider_db:set_domain(Site_url),
   scan_page(Site_url, defgrab).
 
 scan_page(Page_url) -> scan_page(Page_url, defgrab).
 
-scan_page(Page_url, Grab_type) ->
-  io:format("scan_page ~s~n", [Page_url]),
+scan_page(Page_url, Grab_type) when is_list(Page_url) ->
+  io:format("~n====================~nscan_page ~s~n", [Page_url]),
   {ok, Domain} = wSpider_db:get_domain(),
 
   case wSpider_url:link_type(Page_url) of
@@ -29,7 +30,10 @@ scan_page(Page_url, Grab_type) ->
 
     anchor -> 
       io:format("anchor ~s~n", [Page_url]),
+      io:format("Domain ~p~n", [Domain]),
       grab_page(string:join(Domain, Page_url, "/"), Grab_type);
+
+    other -> error;
 
     true -> error
   end.
@@ -55,7 +59,8 @@ start_grab(Page_url, Grab_type) ->
 
 % Преобразование в DOM и выбор ссылок из содержимого страницы
 extract_links(Content) ->
+  %io:format("Page Content:~w~n", [Content]), 
   Dom_tree = mochiweb_html:parse(Content),
-  %Domain = wSpider_url:get_domain(wSpider_url:parse(Site_url)),
+  io:format("Поиск атрибута"),
   Result = wSpider_parser:find_tag(Dom_tree, <<"a">>, <<"href">>, {}),
   Result.

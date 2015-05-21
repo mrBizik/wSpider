@@ -13,8 +13,7 @@
 start() ->
   gen_server:start_link({global, ?MODULE}, ?MODULE, [], []).
 
-check_link(Link) ->
-  io:format("get_link(~s)~n", [Link]),
+check_link(Link) when is_list(Link) ->
 	case get_link(Link) of
 		{ok, Value} ->
 			set_link(Link, Value+1),
@@ -24,7 +23,9 @@ check_link(Link) ->
       {new, {Link, 1}};
     true ->
       {error, null}
-	end.
+	end;
+
+check_link(Link) -> io:format("check_link Неверный тип данных аругмента Link~n").
 
 set_link(Key, Value) ->
   	gen_server:call({global, ?MODULE}, { set, Key, Value }).
@@ -33,19 +34,26 @@ get_link(Key) ->
   	gen_server:call({global, ?MODULE}, { get, Key }).
 
 
-set_domain(Url) ->
-  set_link(domain, string:concat(Url, "/")).
+set_domain(Url) when is_list(Url) ->
+  set_link(domain, string:concat(Url, "/"));
+
+set_domain(Url) when is_binary(Url) -> 
+  set_domain(erlang:binary_to_list(Url));
+
+set_domain(Link) -> io:format("set_domain Неверный тип данных аругмента Link~n").
 
 get_domain() ->
   get_link(domain).
 
-check_domain(Url) ->
+check_domain(Url) when is_list(Url) ->
   {ok, Domain} = wSpider_db:get_domain(),
   Result = string:str(string:concat(Url, "/"), Domain),
   if 
     Result == 1 -> {ok, Url};
     true -> {error, Url}
-  end.  
+  end;
+
+check_domain(Link) -> io:format("check_domain Неверный тип данных аругмента Link~n").
 
 
 

@@ -1,9 +1,10 @@
 {application,wSpider,
              [{description,"wSpider web crawler"},
               {vsn,"0.0.1"},
-              {modules,[wSpider_DOM,wSpider_crawler,wSpider_db,
-                        wSpider_defgrab,wSpider_parser,wSpider_start,
-                        wSpider_sup,wSpider_supervisor,wSpider_url]},
+              {modules,[wCat_sign_index,wSpider_DOM,wSpider_crawler,
+                        wSpider_db,wSpider_defgrab,wSpider_parser,
+                        wSpider_start,wSpider_sup,wSpider_supervisor,
+                        wSpider_url]},
               {registered,[]},
               {env,[]},
               {applications,[kernel,stdlib]}]}.

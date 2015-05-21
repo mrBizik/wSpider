@@ -18,7 +18,7 @@ parse(Url)->
 % Тип URL
 % @param Url 
 % @return atom - relative, anchor, absolute, other
-link_type(Link) ->
+link_type(Link) when is_list(Link) ->
   Relative = string:str(Link, "/"),
   Anchor = string:str(Link, "#"),
   Absolute_http = string:str(Link, "http://"),
