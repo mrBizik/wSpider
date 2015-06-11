@@ -1,25 +1,32 @@
+%%%
 % Обработчик URL строк
+%%%
 -module(wSpider_url).
 
--export([parse/1, get_domain/1]).
+-export([parse/1, link_type/1]).
 
 
 % Парсер URL строки
 % @param Url 
-% @return cortage - {Протокол, Домен, Путь, GET параметры, Якорь}
+% @return cortage - {atom, {Протокол, Домен, Путь, GET параметры, Якорь}}
 parse(Url)->
-  Url_list = string:tokens(Url, "/:?#"),
-  Url_list.
+  Url_cortege = string:tokens(string:to_lower(Url), "/:?#"),
+  Link_type = link_type(Url),
+  {Link_type, Url_cortege}.
 
 
-get_domain([Head|Tail], N)->
-  if 
-    N == 1 ->
-      Head;
-    N < 1 ->
-      get_domain(Tail, N+1)
+% Тип URL
+% @param Url 
+% @return atom - relative, anchor, absolute, other
+link_type(Link) when is_list(Link) ->
+  Relative = string:str(Link, "/"),
+  Anchor = string:str(Link, "#"),
+  Absolute_http = string:str(Link, "http://"),
+  Absolute_https = string:str(Link, "https://"),
+  if
+    Relative == 1 -> relative;
+    Anchor == 1 -> anchor;
+    Absolute_http == 1 -> absolute;
+    Absolute_https == 1 -> absolute;
+    true -> other
   end.
-
-get_domain(Url_list)->
-  get_domain(Url_list, 0).
-

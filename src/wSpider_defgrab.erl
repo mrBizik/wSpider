@@ -11,6 +11,7 @@
 %
 start(Url)->
 	inets:start(),
+  %io:format("Grub ~s~n", [Url]),
 	get_url_contents(Url).
 
 % Загрузить страницу
@@ -20,6 +21,7 @@ get_url_contents(Url, Max_failures) ->
   	case httpc:request(Url) of
     		{ok, {{_, Ret_code, _}, _, Result}} -> if
       			Ret_code == 200; Ret_code == 201 ->
+             % io:format("OK Grub ~s~n", [Url]),
         			{ok, Result};
       			Ret_code >= 500 ->
         			% server error, retry 
