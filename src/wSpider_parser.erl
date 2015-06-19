@@ -46,16 +46,16 @@ find_tag(DOM_tree, Tag, Attr, Parrent) when is_binary(DOM_tree) ->
 		%Tag_name == <<"script">> ->
 		%	Parrent;
 		Tag_name == <<"a">> ->
-			wCat_sign_index:scan_doc(text, erlang:binary_to_list(DOM_tree)),
+			wSign_index:scan_doc(text, erlang:binary_to_list(DOM_tree)),
 			Parrent;
 		Tag_name == <<"p">> ->
-			wCat_sign_index:scan_doc(text, erlang:binary_to_list(DOM_tree)),
+			wSign_index:scan_doc(text, erlang:binary_to_list(DOM_tree)),
 			Parrent;
 		Tag_name == <<"span">> ->
-			wCat_sign_index:scan_doc(text, erlang:binary_to_list(DOM_tree)),
+			wSign_index:scan_doc(text, erlang:binary_to_list(DOM_tree)),
 			Parrent;
 		Tag_name == <<"strong">> ->
-			wCat_sign_index:scan_doc(text, erlang:binary_to_list(DOM_tree)),
+			wSign_index:scan_doc(text, erlang:binary_to_list(DOM_tree)),
 			Parrent;
 		true -> 
 			Parrent

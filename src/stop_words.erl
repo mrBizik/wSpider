@@ -8,19 +8,7 @@
 
 
 load_words(FileName) ->
-	string:tokens(string:to_lower(read_file(FileName)), "\n").
-
-
-read_file(Name) ->
-    {ok, Device} = file:open(Name, read),
-    lists:merge(read_file_each_line(Device, [])).
-
-read_file_each_line(Device, Accum) ->
-    case io:get_line(Device, "") of
-        eof  -> file:close(Device), lists:reverse(Accum);
-        Line -> read_file_each_line(Device, [Line | Accum])
-    end.
-
+	string:tokens(string:to_lower(files:read_file(FileName)), "\n").
 
 start() ->
   	gen_server:start_link({global, ?MODULE}, ?MODULE, [], []).

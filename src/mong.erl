@@ -23,7 +23,7 @@ start() ->
 	%Mong:save("words", [{"word", "vasya"}, {"link", [{"a", 10}, {"b", 1}, {"c", 13}]}]),
 	%Mong:findOne("words", [{"link.a", 10}], [{"word", 1}]).
 	%Mong:save(#mydoc{name = "MyDocument", i = 10}).
-	%Mong:save("words", [{"word", "vasya"}, {"link", [{"a", 10}, {"b", 1}, {"c", 13}]}]), % рабочий
+	Mong:save("words", [{"word", "vasya"}, {"link", [{"a", 10}, {"b", 1}, {"c", 13}]}]), % рабочий
 
 	% find(Col, Query, Selector, From, Limit,{?MODULE,[Pool,DB]}) when is_list(Query)
-	Mong:find("words", [{"link.a", 10}], [{"word", 1}, {"_id", 0}], 0, 10). % рабочий
+	Mong:find("words", [{"link.a", 100}], [{"word", 100}, {"_id", 0}], 0, 10). % рабочий

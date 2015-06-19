@@ -4,7 +4,7 @@
 -module(wSpider_db).
 -behaviour(gen_server).
 
--export([start/0, check_link/1, set_link/2, get_link/1, set_domain/1, get_domain/0, check_domain/1, get_list/0,  get_size/0, version/0]).
+-export([start/0, check_link/1, set_link/2, get_link/1, set_domain/1, get_domain/0, check_domain/1, set_theme/1, get_theme/0, get_list/0,  get_size/0, version/0]).
 -export([init/1, handle_call/3, handle_cast/2, terminate/2]).
 
 -define(VERSION, 0.01).
@@ -33,7 +33,6 @@ set_link(Key, Value) ->
 get_link(Key) ->
   	gen_server:call({global, ?MODULE}, { get, Key }).
 
-
 set_domain(Url) when is_list(Url) ->
   set_link(domain, string:concat(Url, "/"));
 
@@ -45,6 +44,17 @@ set_domain(Link) -> io:format("set_domain Неверный тип данных �
 get_domain() ->
   get_link(domain).
 
+set_theme(Theme) when is_list(Theme) ->
+  set_link(theme, string:concat(Theme, "/"));
+
+set_theme(Theme) when is_binary(Theme) -> 
+  set_theme(erlang:binary_to_list(Theme));
+
+set_theme(Link) -> io:format("set_domain Неверный тип данных аругмента Link~n").
+
+get_theme() ->
+  get_link(theme).
+
 check_domain(Url) when is_list(Url) ->
   {ok, Domain} = wSpider_db:get_domain(),
   Result = string:str(string:concat(Url, "/"), Domain),
@@ -55,7 +65,8 @@ check_domain(Url) when is_list(Url) ->
 
 check_domain(Link) -> io:format("check_domain Неверный тип данных аругмента Link~n").
 
-
+unset() ->
+  gen_server:call({global, ?MODULE}, {unset}).
 
 get_list() ->
 	gen_server:call({global, ?MODULE}, {list}).
@@ -75,6 +86,11 @@ init([]) ->
 handle_call({ set, Key, Value }, _From, State) ->
   	NewState = dict:store(Key, Value, State),
   	{ reply, ok, NewState };
+
+handle_call({ unset }, _From, State) ->
+    NewState = dict:new(),
+    { reply, ok, NewState };
+
 
 handle_call({ get, Key }, _From, State) ->
   	Resp = dict:find(Key, State),

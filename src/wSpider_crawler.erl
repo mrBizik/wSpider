@@ -7,7 +7,7 @@
 
 load_mod() ->
   wSpider_db:start(),
-  wCat_sign_db:start(),
+  wSign_db:start(),
   stop_words:start(),
   %rr("erlmongo.hrl"),
   application:start(erlmongo),
