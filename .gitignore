@@ -37,3 +37,7 @@ Icon
 .Trashes
 
 /deps
+/.idea
+/bin
+/ebin
+rebar
